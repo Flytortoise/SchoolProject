@@ -19,7 +19,7 @@ void ControlWidget::CreateInit()
     pztPlus = new QPushButton(tr("+PZT"));
     pztSub = new QPushButton(tr("-PZT"));
 
-    TittleLable = new QLabel(tr("点位控制:"));
+    TittleLable = new QLabel(tr("点动控制:"));
 }
 
 void ControlWidget::CreateLayout()

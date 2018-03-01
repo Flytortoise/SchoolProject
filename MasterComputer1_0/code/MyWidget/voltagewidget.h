@@ -1,3 +1,6 @@
+/*
+ * 极间电压
+*/
 #ifndef VOLTAGEWIDGET_H
 #define VOLTAGEWIDGET_H
 

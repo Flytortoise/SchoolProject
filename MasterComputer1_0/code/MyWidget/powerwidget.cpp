@@ -14,7 +14,7 @@ PowerWidget::PowerWidget(QWidget *parent) : QWidget(parent)
 
 void PowerWidget::CreateInit()
 {
-    QRegExp regExp("[0-9]{1,2}");   //检查器，可以输入0—99
+    QRegExp regExp("[0-9]{0,4}");   //检查器，可以输入0—9999
 
     PulseWidthLable = new QLabel(tr("脉冲宽度(us):"));
     PulseWidthEidt = new QLineEdit;

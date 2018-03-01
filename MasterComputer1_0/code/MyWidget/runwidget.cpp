@@ -15,7 +15,7 @@ RunWidget::RunWidget(QWidget *parent) : QWidget(parent)
 
 void RunWidget::CreateInit()
 {
-    QRegExp regexp("[0-9]{0,2}");
+    QRegExp regexp("[0-9]{0,4}");   //范围 0~9999
 
     xLocationLabel = new QLabel(tr("X坐标:"));
     xLocationEdit = new QLineEdit;

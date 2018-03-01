@@ -1,3 +1,6 @@
+/*
+ * 运动设定
+*/
 #ifndef RUNWIDGET_H
 #define RUNWIDGET_H
 
@@ -26,15 +29,15 @@ private:
         speedSizeData = 3
     };
 
-    QLabel *xLocationLabel;
-    QLabel *yLocationLabel;
-    QLabel *zLocationLabel;
-    QLabel *pztLocationLabel;
-    QLabel *setLabel[setSizeData];
-    QLabel *speedLabel[speedSizeData];
-    QLabel *mmUnitLabel[mmSize];
-    QLabel *mm_sUnitLabel[mm_sSize];
-    QLabel *umUnitLabel[umSize];
+    QLabel *xLocationLabel;     // X坐标
+    QLabel *yLocationLabel;     // Y坐标
+    QLabel *zLocationLabel;     // Z坐标
+    QLabel *pztLocationLabel;   // PZT坐标
+    QLabel *setLabel[setSizeData];  //设置
+    QLabel *speedLabel[speedSizeData];  //速度
+    QLabel *mmUnitLabel[mmSize];        //mm
+    QLabel *mm_sUnitLabel[mm_sSize];    // mm/s
+    QLabel *umUnitLabel[umSize];        //um
 
     QLineEdit *xLocationEdit;
     QLineEdit *yLocationEdit;
@@ -43,9 +46,9 @@ private:
     QLineEdit *setEdit[setSizeData];
     QLineEdit *speedEdit[speedSizeData];
 
-    QPushButton *setOk;
+    QPushButton *setOk;     //参数确定按钮
 
-    QLabel *TittleLabel;
+    QLabel *TittleLabel;    //标题
 
     void CreateInit();  //初始化控件
     void CreateLayout();    //布局

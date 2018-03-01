@@ -1,3 +1,7 @@
+/*
+ * 点动控制界面，包含+X，-X，+Y，-Y，+Z，-Z，+PZT，-PZT
+*/
+
 #ifndef CONTROLWIDGET_H
 #define CONTROLWIDGET_H
 
@@ -25,7 +29,7 @@ private:
     QPushButton *pztPlus;
     QPushButton *pztSub;
 
-    QLabel *TittleLable;
+    QLabel *TittleLable;    //标题
 
     void CreateInit();
     void CreateLayout();
