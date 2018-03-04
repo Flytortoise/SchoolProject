@@ -20,7 +20,7 @@ signals:
     void SendRunData(RunToHandleData);  //向主界面发送数据
 
 public slots:
-    void GetRecvData(ComToRunData);
+    void GetRecvData(ComToRunData);     //从主界面接受串口处理号的数据
 
 private:
     static const char *REGEXP;

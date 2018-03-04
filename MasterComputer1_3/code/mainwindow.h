@@ -26,8 +26,8 @@ public:
     };
 
 signals:
-    void SendPowerData(HandleToComData);    //向串口界面发送数据
-    void SendRunData(HandleToComData);      //向串口界面发送数据
+    void SendPowerData(HandleToComData);    //向串口界面发送电源设定数据
+    void SendRunData(HandleToComData);      //向串口界面发送运动设定数据
     void ComToRun(ComToRunData);     //串口传回的数据，发给运动设定
 
 public slots:
