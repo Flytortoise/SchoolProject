@@ -109,7 +109,7 @@ void ComPortWidget::CreateLayout()
 
 void ComPortWidget::MyOpenCom()
 {  
-    if(myCom)
+    if(myCom != nullptr)
         delete myCom;
     myCom = new Win_QextSerialPort(SelectComComboBox->currentText(),
                                    QextSerialBase::EventDriven);
@@ -233,7 +233,12 @@ void ComPortWidget::GetSendData(HandleToComData data)
    // qDebug() << m_SendData.toHex();
 }
 
-
+void ComPortWidget::closeEvent(QCloseEvent *)
+{
+   // qDebug() << "demo";
+    if(myCom != nullptr)
+        myCom->close();
+}
 
 
 

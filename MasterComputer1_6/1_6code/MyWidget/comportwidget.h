@@ -22,6 +22,7 @@ class ComPortWidget : public QWidget
     Q_OBJECT
 public:
     explicit ComPortWidget(QWidget *parent = 0);
+    void closeEvent(QCloseEvent *);
 
 signals:
     void EmitRecvData();      //将接收到的数据发送给主界面

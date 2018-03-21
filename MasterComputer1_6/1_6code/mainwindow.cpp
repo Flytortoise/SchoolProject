@@ -53,6 +53,7 @@ void MainWindow::CreateInit()
             this, SLOT(GetComRecvData()));
     connect(controlwidget,SIGNAL(SendConData()),
             this, SLOT(GetConData()));
+    m_handleThread = nullptr;
 /*
     connect(m_handleThread, SIGNAL(SendReadyData(HandleToComData)),
             comportwidget, SLOT(GetSendData(HandleToComData)));
@@ -125,8 +126,12 @@ void MainWindow::GetComRecvData()
 void MainWindow::closeEvent(QCloseEvent *)
 {    
     comportwidget->close();     //主窗口关闭时，串口窗口也关闭
-    m_handleThread->terminate();     //关闭最后一个线程
-    m_handleThread->wait();     //等待该线程资源释放，其实不写也没事，因为进程关闭了，线程肯定都回收
+    if(m_handleThread != nullptr)
+    {
+        m_handleThread->terminate();     //关闭最后一个线程
+        m_handleThread->wait();     //等待该线程资源释放，其实不写也没事，因为进程关闭了，线程肯定都回收
+    }
+
 }
 
 
