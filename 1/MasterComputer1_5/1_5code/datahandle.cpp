@@ -14,6 +14,7 @@ HandleToComData DataHandle::PowerDataHandle(PowerToHandleData &powerdata)
              << "PowerSting:"<< powerdata.PowerString << "\n\n";
 */
     unsigned int m_dataIndex = 0;   //m_data下标
+    m_data.clear();
     m_data.flag = HandleToComData::POWERDATA;
     m_data.data[m_dataIndex++] = 0x09;   //开头
     m_data.data[m_dataIndex++] = 0x0A;   //电源设定标识
@@ -31,8 +32,8 @@ HandleToComData DataHandle::PowerDataHandle(PowerToHandleData &powerdata)
     SetMyData(static_cast<unsigned int>(powerdata.PulseRateString.toDouble() *1000),
               m_dataIndex);
 
-    m_data.data[29] = 0x8D;  //CRC标识位
-    m_data.data[30] = 0x8E;  //CRC标识位
+    m_data.data[29] = 0x8D;  //数据结束标志
+    m_data.data[30] = 0x8E;  //数据结束标志
     unsigned int CRCFlag = CRCHandle(29);
     m_data.data[29] = CRCFlag >> 8;
     m_data.data[30] = CRCFlag & 0xff;
@@ -48,7 +49,7 @@ HandleToComData DataHandle::RunDataHandle(RunToHandleData &rundata)
              << "z:" << rundata.zData[0] << " " << rundata.zData[1] << "\n"
              << "pzt:" << rundata.pztData << "\n\n";
 */
-
+    m_data.clear();
     m_data.flag = HandleToComData::RUNDATA;
     unsigned int m_dataIndex = 0;   //m_data下标
     m_data.data[m_dataIndex++] = 0x09;   //开头
@@ -124,8 +125,8 @@ HandleToComData DataHandle::RunDataHandle(RunToHandleData &rundata)
     SetMyData(static_cast<unsigned int>( rundata.zData[RunToHandleData::SetPositon].toDouble() * 1000),
               m_dataIndex);
 
-    m_data.data[29] = 0x8D;  //CRC标识位
-    m_data.data[30] = 0x8E;  //CRC标识位
+    m_data.data[29] = 0x8D;  //数据结束标志
+    m_data.data[30] = 0x8E;  //数据结束标志
     unsigned int CRCFlag = CRCHandle(29);
     m_data.data[29] = CRCFlag >> 8;
     m_data.data[30] = CRCFlag & 0xff;
@@ -136,23 +137,23 @@ HandleToComData DataHandle::RunDataHandle(RunToHandleData &rundata)
 
 unsigned int DataHandle::CRCHandle(unsigned int len)
 {
-    unsigned int CrcFlag = 0xFFFF;
+    unsigned int CrcFlag = 0xFFFF;  //初值与下位机协定好
     unsigned int m_dataIndex = 0;
     while(len--)
     {
         for(unsigned char i=0x80; i != 0; i >>= 1)	//8次循环
         {
-            if((CrcFlag & 0x8000) != 0)   //如果最高位为1
+            if((CrcFlag & 0x8000) != 0)   //上一位存在余式，CRC乘以2再求CRC
             {
                 CrcFlag <<= 1;
-                CrcFlag ^= 0x1021;
+                CrcFlag ^= 0x1021;  //CRC生成多项式  0x1021，欧洲推荐标准
             }
-            else
+            else                    //上一位不存在余式
             {
                 CrcFlag <<= 1;
             }
             if((m_data.data[m_dataIndex]&i) != 0)
-                CrcFlag ^= 0x1021;
+                CrcFlag ^= 0x1021;                  //最后加上本位的异或值，产生本位CRC
         }
         m_dataIndex++;
     }
@@ -209,8 +210,20 @@ ComToRunData DataHandle::AnalysisComData(QByteArray comdata)
 
 HandleToComData DataHandle::ConDataHandle(QByteArray &condata)
 {
-    HandleToComData readydata;
-    readydata.flag = HandleToComData::CONDATA;
-    readydata.data = condata;
-    return readydata;
+    m_data.clear();
+    m_data.flag = HandleToComData::CONDATA;
+    m_data.data[0] = 0x09;  //开头
+    m_data.data[1] = 0x0c;  //点位控制标识符
+    m_data.data[11] = condata[0];    //0x20
+    m_data.data[12] = condata[1];    //
+    m_data.data[13] = condata[2];    //0x10
+
+    m_data.data[29] = 0x8D;
+    m_data.data[30] = 0x8E;
+    unsigned int CRCFlag = CRCHandle(29);
+    m_data.data[29] = CRCFlag >> 8;
+    m_data.data[30] = CRCFlag & 0xff;
+    m_data.data[31] = 0x10;  //结束位
+
+    return m_data;
 }

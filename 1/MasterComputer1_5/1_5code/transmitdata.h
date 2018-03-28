@@ -45,8 +45,10 @@ struct HandleToComData          //传给串口处理好的数据
 {
     HandleToComData();
     HandleToComData(const HandleToComData &other);
+    void clear();
 
     enum{
+        EMPTYDATA,
         POWERDATA,
         RUNDATA,
         CONDATA,
