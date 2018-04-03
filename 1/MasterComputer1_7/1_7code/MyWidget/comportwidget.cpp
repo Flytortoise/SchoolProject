@@ -106,6 +106,13 @@ void ComPortWidget::CreateInit()
    });
 
    promptmessage = new PromptMessage;
+   PromptTimer = new QTimer(this);
+   connect(PromptTimer,&QTimer::timeout,
+           [this](){
+       PromptTimer->stop();
+       if(!isSendDataOk)
+           promptmessage->show();
+   });
 
 }
 
@@ -260,7 +267,9 @@ void ComPortWidget::GetSendData(HandleToComData data)
 
     SendTimer->stop();
     SendTimer->start(5000);
-    promptmessage->show();
+    PromptTimer->stop();
+    PromptTimer->start(800);    //0.8s,延迟0.8s后显示窗口，避免数据传输正确时，闪烁界面
+    //promptmessage->show();
     HideButton();
     MySendData(SENDDATA);
 }

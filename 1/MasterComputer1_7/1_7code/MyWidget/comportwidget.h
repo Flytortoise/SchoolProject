@@ -80,7 +80,8 @@ private:
     QByteArray m_ResponseData;
 
     QTimer *SingualrTimer;
-    QTimer *AllTimer;
+    //QTimer *AllTimer;
+    QTimer *PromptTimer;
 
     PromptMessage *promptmessage;   //提示信息
     QTimer *SendTimer;              //控制整体发送时间
